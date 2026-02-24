@@ -809,6 +809,37 @@ td.emphasis {
   justify-content: flex-end;
 }
 
+.contact-link-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.6rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.56));
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.contact-link-cta span {
+  line-height: 1;
+}
+
+.contact-link-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(246, 248, 251, 0.88));
+}
+
+.contact-link-cta:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
 .site-footer {
   border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
   border-radius: 14px;

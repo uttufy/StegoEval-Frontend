@@ -18,10 +18,12 @@ describe("LLM Leaderboard UI", () => {
     expect(screen.getByRole("heading", { name: "Contact" })).toBeInTheDocument();
     const footer = screen.getByRole("contentinfo");
     expect(footer).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "View StegoEval Repository" })).toHaveAttribute(
+    const contactCta = screen.getByRole("link", { name: "View StegoEval Repository" });
+    expect(contactCta).toHaveAttribute(
       "href",
       "https://github.com/uttufy/StegoEval"
     );
+    expect(contactCta).toHaveClass("contact-link-cta");
     expect(within(footer).getByRole("link", { name: "github.com/uttufy/StegoEval" })).toHaveAttribute(
       "href",
       "https://github.com/uttufy/StegoEval"
