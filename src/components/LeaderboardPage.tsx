@@ -155,6 +155,59 @@ export function LeaderboardPage() {
           </>
         ) : null}
       </section>
+
+      <section className="about-section" aria-label="About this project">
+        <div className="about-card">
+          <div className="about-copy">
+            <h2>About StegoEval Leaderboard</h2>
+            <p>
+              This leaderboard presents comparative LLM rankings powered by benchmark results from
+              StegoEval.
+            </p>
+            <ul className="about-list">
+              <li>Benchmarking tool: StegoEval (open-source repository)</li>
+              <li>Ranking dimensions: quality, cost efficiency, and latency</li>
+              <li>Goal: transparent and repeatable model comparison for practical selection</li>
+            </ul>
+            <p className="about-links">
+              Benchmark repository:{" "}
+              <a href="https://github.com/uttufy/StegoEval" target="_blank" rel="noreferrer noopener">
+                github.com/uttufy/StegoEval
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="contact-section" aria-label="Contact">
+        <div className="contact-card">
+          <div className="contact-copy">
+            <h2>Contact</h2>
+            <p>Built by Utkarsh Sharma. Open to collaboration.</p>
+          </div>
+          <div className="contact-actions">
+            <a
+              href="https://github.com/uttufy/StegoEval"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="button button-primary"
+            >
+              View StegoEval Repository
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="site-footer">
+        <div className="footer-inner">
+          <p>© 2026 LLM Leaderboards</p>
+          <div className="footer-links">
+            <a href="https://github.com/uttufy/StegoEval" target="_blank" rel="noreferrer noopener">
+              github.com/uttufy/StegoEval
+            </a>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

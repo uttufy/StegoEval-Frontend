@@ -14,6 +14,18 @@ describe("LLM Leaderboard UI", () => {
     expect(await screen.findByRole("heading", { name: "Your Metrics" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Leaderboard Winners" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Global Ranking" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "About StegoEval Leaderboard" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Contact" })).toBeInTheDocument();
+    const footer = screen.getByRole("contentinfo");
+    expect(footer).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "View StegoEval Repository" })).toHaveAttribute(
+      "href",
+      "https://github.com/uttufy/StegoEval"
+    );
+    expect(within(footer).getByRole("link", { name: "github.com/uttufy/StegoEval" })).toHaveAttribute(
+      "href",
+      "https://github.com/uttufy/StegoEval"
+    );
   });
 
   it("shows global ranking controls", async () => {
