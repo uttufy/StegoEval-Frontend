@@ -43,6 +43,65 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
         </Link>
       </nav>
 
+      <div className="downloads-quick-bar">
+        <a
+          href={`/api/download?file=scores-test-run.csv&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+          className="download-quick-link"
+          download={`scores-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.csv`}
+          aria-label="Download Algorithm Scores"
+        >
+          <svg className="download-quick-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" />
+            <path d="M7 11a4 4 0 00-4 4v2h14v-2a4 4 0 00-4-4H7z" />
+            <path d="M9 7a3 3 0 013-3h2a3 3 0 013 3v4H9V7z" />
+          </svg>
+          <span className="download-quick-label">Scores</span>
+        </a>
+        <a
+          href={`/api/download?file=scores-test-run-by-category.csv&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+          className="download-quick-link"
+          download={`scores-by-category-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.csv`}
+          aria-label="Download Category Scores"
+        >
+          <svg className="download-quick-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M2 11a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z" />
+            <path d="M5 5a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+            <path d="M5 16a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+            <path d="M9 8a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" />
+            <path d="M9 13a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" />
+          </svg>
+          <span className="download-quick-label">Category</span>
+        </a>
+        <a
+          href={`/api/download?file=results-test-run.csv&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+          className="download-quick-link"
+          download={`results-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.csv`}
+          aria-label="Download Full Results"
+        >
+          <svg className="download-quick-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M5 5a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+            <path d="M5 15a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+          </svg>
+          <span className="download-quick-label">Full</span>
+        </a>
+        <a
+          href={`/api/download?file=summary-test-run.md&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+          className="download-quick-link"
+          download={`summary-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.md`}
+          aria-label="Download Summary"
+        >
+          <svg className="download-quick-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M9 9h6V5H9v4z" />
+            <path d="M4 5a1 1 0 011-1h12a1 1 0 110 2H5a1 1 0 01-1-1z" />
+            <path d="M4 9h6V5H4v4z" />
+            <path d="M4 13a1 1 0 011-1h6a1 1 0 110 2H5a1 1 0 01-1-1z" />
+            <path d="M4 17a1 1 0 011-1h6a1 1 0 110 2H5a1 1 0 01-1-1z" />
+          </svg>
+          <span className="download-quick-label">Summary</span>
+        </a>
+      </div>
+
       <header className="technique-header">
         <div className="header-left">
           <Link href="/" className="rank-badge">
