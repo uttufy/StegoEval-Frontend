@@ -18,16 +18,25 @@ function toIso(value: unknown): string {
 
 function normalizeEntry(entry: Partial<LeaderboardEntry>, index: number): LeaderboardEntry {
   return {
-    id: String(entry.id ?? `model-${index + 1}`),
-    modelName: String(entry.modelName ?? "Unknown model"),
-    provider: String(entry.provider ?? "Unknown provider"),
+    id: String(entry.id ?? `alg-${index + 1}`),
+    algorithmName: String(entry.algorithmName ?? "Unknown algorithm"),
+    datasetProfile: String(entry.datasetProfile ?? "Unknown profile"),
     compositeScore: toNumber(entry.compositeScore),
-    qualityScore: toNumber(entry.qualityScore),
-    costPer1MInput: toNumber(entry.costPer1MInput),
-    costPer1MOutput: toNumber(entry.costPer1MOutput),
-    latencyMs: toNumber(entry.latencyMs),
-    contextWindow: toNumber(entry.contextWindow),
-    lastEvaluatedIso: toIso(entry.lastEvaluatedIso)
+    psnrDb: toNumber(entry.psnrDb),
+    ber: toNumber(entry.ber),
+    payloadBpp: toNumber(entry.payloadBpp),
+    runtimeMs: toNumber(entry.runtimeMs),
+    lastEvaluatedIso: toIso(entry.lastEvaluatedIso),
+    algorithmFamily: entry.algorithmFamily ? String(entry.algorithmFamily) : undefined,
+    description: entry.description ? String(entry.description) : undefined,
+    // NEW FIELDS
+    ssim: toNumber(entry.ssim, 1),
+    recoveryRate: toNumber(entry.recoveryRate, 0),
+    compressionScore: entry.compressionScore !== undefined ? toNumber(entry.compressionScore) : undefined,
+    blurScore: entry.blurScore !== undefined ? toNumber(entry.blurScore) : undefined,
+    noiseScore: entry.noiseScore !== undefined ? toNumber(entry.noiseScore) : undefined,
+    geometricScore: entry.geometricScore !== undefined ? toNumber(entry.geometricScore) : undefined,
+    capacityScore: entry.capacityScore !== undefined ? toNumber(entry.capacityScore) : undefined
   };
 }
 
@@ -36,19 +45,21 @@ export function baseRankComparator(a: LeaderboardEntry, b: LeaderboardEntry): nu
     return b.compositeScore - a.compositeScore;
   }
 
-  if (b.qualityScore !== a.qualityScore) {
-    return b.qualityScore - a.qualityScore;
+  if (b.psnrDb !== a.psnrDb) {
+    return b.psnrDb - a.psnrDb;
   }
 
-  if (a.latencyMs !== b.latencyMs) {
-    return a.latencyMs - b.latencyMs;
+  if (a.ber !== b.ber) {
+    return a.ber - b.ber;
   }
 
-  if (a.costPer1MInput !== b.costPer1MInput) {
-    return a.costPer1MInput - b.costPer1MInput;
+  if (b.payloadBpp !== a.payloadBpp) {
+    return b.payloadBpp - a.payloadBpp;
   }
 
-  const nameCompare = a.modelName.localeCompare(b.modelName, undefined, { sensitivity: "base" });
+  const nameCompare = a.algorithmName.localeCompare(b.algorithmName, undefined, {
+    sensitivity: "base"
+  });
   if (nameCompare !== 0) {
     return nameCompare;
   }
@@ -79,16 +90,24 @@ export function sortEntries(
       return b.compositeScore - a.compositeScore || baseRankComparator(a, b);
     }
 
-    if (key === "qualityScore") {
-      return b.qualityScore - a.qualityScore || baseRankComparator(a, b);
+    if (key === "psnrDb") {
+      return b.psnrDb - a.psnrDb || baseRankComparator(a, b);
     }
 
-    if (key === "costPer1MInput") {
-      return a.costPer1MInput - b.costPer1MInput || baseRankComparator(a, b);
+    if (key === "ber") {
+      return a.ber - b.ber || baseRankComparator(a, b);
     }
 
-    if (key === "latencyMs") {
-      return a.latencyMs - b.latencyMs || baseRankComparator(a, b);
+    if (key === "payloadBpp") {
+      return b.payloadBpp - a.payloadBpp || baseRankComparator(a, b);
+    }
+
+    if (key === "ssim") {
+      return b.ssim - a.ssim || baseRankComparator(a, b);
+    }
+
+    if (key === "recoveryRate") {
+      return b.recoveryRate - a.recoveryRate || baseRankComparator(a, b);
     }
 
     const aTime = new Date(a.lastEvaluatedIso).getTime();
@@ -100,7 +119,15 @@ export function sortEntries(
     return direction === "asc" ? sorted : sorted.reverse();
   }
 
-  if (key === "costPer1MInput" || key === "latencyMs") {
+  if (key === "ber") {
+    return direction === "desc" ? sorted.reverse() : sorted;
+  }
+
+  if (key === "ssim") {
+    return direction === "desc" ? sorted.reverse() : sorted;
+  }
+
+  if (key === "recoveryRate") {
     return direction === "desc" ? sorted.reverse() : sorted;
   }
 
@@ -115,8 +142,9 @@ export function filterEntries(entries: LeaderboardEntry[], query: string): Leade
 
   return entries.filter((entry) => {
     return (
-      entry.modelName.toLowerCase().includes(normalizedQuery) ||
-      entry.provider.toLowerCase().includes(normalizedQuery)
+      entry.algorithmName.toLowerCase().includes(normalizedQuery) ||
+      entry.datasetProfile.toLowerCase().includes(normalizedQuery) ||
+      (entry.algorithmFamily ?? "").toLowerCase().includes(normalizedQuery)
     );
   });
 }
@@ -138,11 +166,19 @@ export function buildRankMap(entries: LeaderboardEntry[]): Map<string, number> {
   return new Map([...entries].sort(baseRankComparator).map((entry, index) => [entry.id, index + 1]));
 }
 
-export function formatCost(value: number): string {
-  return `$${value.toFixed(2)}/1M`;
+export function formatPsnr(value: number): string {
+  return `${value.toFixed(1)} dB`;
 }
 
-export function formatLatency(value: number): string {
+export function formatBer(value: number): string {
+  return value.toFixed(3);
+}
+
+export function formatPayload(value: number): string {
+  return `${value.toFixed(2)} bpp`;
+}
+
+export function formatRuntime(value: number): string {
   return `${Math.round(value)} ms`;
 }
 
@@ -164,9 +200,23 @@ export function formatLastEvaluated(iso: string): string {
   return `${month} ${day} at ${hour12}:${minutePadded} ${period}`;
 }
 
-export function formatContextWindow(tokens: number): string {
-  if (tokens >= 1000) {
-    return `${Math.round(tokens / 1000)}k`;
-  }
-  return String(tokens);
+export function formatSsim(value: number): string {
+  return value.toFixed(3);
+}
+
+export function formatRecoveryRate(value: number): string {
+  return `${value.toFixed(1)}%`;
+}
+
+export function formatAttackScore(value: number | undefined): string {
+  if (value === undefined) return "-";
+  return value.toFixed(1);
+}
+
+export function getAlgorithmByName(name: string): LeaderboardEntry | undefined {
+  const entries = getLeaderboardEntriesSync();
+  return entries.find(
+    (entry) =>
+      entry.algorithmName.toLowerCase() === decodeURIComponent(name).toLowerCase()
+  );
 }

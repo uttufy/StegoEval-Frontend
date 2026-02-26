@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LLM Leaderboard",
-  description: "Minimal white-mode leaderboard for ranking LLM quality, cost, and latency"
+  title: "Steganography Algorithm Leaderboard",
+  description:
+    "Minimal white-mode leaderboard for ranking steganography algorithms by PSNR, BER, payload, and runtime"
 };
 
 export default function RootLayout({

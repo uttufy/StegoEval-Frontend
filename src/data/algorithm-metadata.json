@@ -1,0 +1,153 @@
+{
+  "algorithms": {
+    "HUGO": {
+      "algorithmFamily": "Spatial",
+      "description": "HUGO (Highly Undetectable steGO) is a spatial domain steganography algorithm that uses weighted pixel cost maps to minimize embedding distortion. It assigns lower costs to complex textures where modifications are less likely to be detected, and higher costs to smooth areas. This adaptive approach results in high embedding capacity with minimal visual artifacts, making it highly resistant to statistical steganalysis attacks.",
+      "datasetProfile": "BOSSBase-256"
+    },
+    "S-UNIWARD": {
+      "algorithmFamily": "Spatial",
+      "description": "S-UNIWARD (Spatial UNIversal WAVElet Relative Distortion) is a sophisticated spatial steganography scheme that computes embedding costs using a wavelet filter bank. It models the detectability of modifications by simulating how steganalysis algorithms would detect changes. The method creates relative distortion measures that guide the embedding process to achieve optimal security while maintaining high payload capacity.",
+      "datasetProfile": "BOSSBase-512"
+    },
+    "WOW": {
+      "algorithmFamily": "Spatial",
+      "description": "WOW (Wavelet Oriented steganography) utilizes wavelet transforms to modify coefficients in frequency domain. It creates distortion costs based on the expected detection rate of steganalysis algorithms, ensuring that modifications are placed where they are least likely to be detected. The wavelet-based approach provides good balance between security and visual quality.",
+      "datasetProfile": "BOSSBase-256"
+    },
+    "MiPOD": {
+      "algorithmFamily": "Spatial",
+      "description": "MiPOD (Minimum Probability of Detection) optimizes the steganographic embedding process by minimizing the probability of detection. It uses pixel-wise distortion costs based on steganalysis noise covariance models, allowing for secure embedding that maximizes payload while minimizing detectability.",
+      "datasetProfile": "BOSSBase-512"
+    },
+    "J-UNIWARD": {
+      "algorithmFamily": "JPEG",
+      "description": "J-UNIWARD extends the UNIWARD approach to JPEG domain steganography. It operates on quantized DCT coefficients and incorporates side-channel information from the JPEG compression process. The algorithm models the detectability of coefficient modifications in the frequency domain, allowing for secure embedding directly into JPEG files without decompression and recompression cycles.",
+      "datasetProfile": "ALASKA2-JPEG75"
+    },
+    "UERD": {
+      "algorithmFamily": "JPEG",
+      "description": "UERD (Universal Embedded Reversible Data hiding) is a JPEG steganography algorithm that embeds data in DCT coefficients using a noise-equivalent cost function. It provides high embedding capacity while maintaining imperceptibility and supports reversible embedding, allowing for perfect recovery of the original image after data extraction.",
+      "datasetProfile": "ALASKA2-JPEG90"
+    },
+    "J-MiPOD": {
+      "algorithmFamily": "JPEG",
+      "description": "J-MiPOD adapts the MiPOD framework for JPEG domain steganography. It applies minimum probability of detection principles to quantized DCT coefficients, creating a secure embedding scheme that minimizes detectability while maintaining high embedding capacity in the frequency domain of JPEG images.",
+      "datasetProfile": "ALASKA2-JPEG75"
+    },
+    "SRNet-Embed": {
+      "algorithmFamily": "Deep",
+      "description": "SRNet-Embed uses deep neural networks to generate steganographic embeddings with enhanced security. The neural network learns to embed data in a way that is highly resistant to steganalysis attacks, providing a modern approach to steganography that leverages deep learning advances.",
+      "datasetProfile": "BOSSBase-512"
+    },
+    "SteganoGAN": {
+      "algorithmFamily": "GAN",
+      "description": "SteganoGAN utilizes Generative Adversarial Networks for steganographic embedding. The GAN framework trains a generator to embed data and a discriminator to detect hidden messages, resulting in a highly secure embedding scheme that minimizes detectability while maintaining visual quality.",
+      "datasetProfile": "DIV2K-Color"
+    },
+    "HiDDeN": {
+      "algorithmFamily": "Deep",
+      "description": "HiDDeN (Hiding Data with Deep Networks) is a deep learning-based steganography method that uses convolutional neural networks to create embeddings that are highly resistant to statistical analysis. The network learns optimal embedding patterns that minimize detectability while preserving image quality.",
+      "datasetProfile": "COCO-2017"
+    },
+    "RivaGAN": {
+      "algorithmFamily": "GAN",
+      "description": "RivaGAN is an advanced steganography system based on Generative Adversarial Networks. It creates high-quality embeddings that are difficult to detect even by sophisticated steganalysis tools, providing excellent balance between payload capacity, security, and visual fidelity.",
+      "datasetProfile": "COCO-2017"
+    },
+    "DWT-DCT": {
+      "algorithmFamily": "Transform",
+      "description": "DWT-DCT combines Discrete Wavelet Transform and Discrete Cosine Transform for hybrid domain steganography. It embeds data across multiple frequency domains to enhance security and provide robustness against various image processing attacks and manipulations.",
+      "datasetProfile": "USC-SIPI"
+    },
+    "DWT-SVD": {
+      "algorithmFamily": "Transform",
+      "description": "DWT-SVD combines Discrete Wavelet Transform and Singular Value Decomposition for enhanced steganographic capacity. It utilizes the energy compaction properties of wavelet transforms and the stability of SVD to create secure embeddings that maintain high visual quality.",
+      "datasetProfile": "USC-SIPI"
+    },
+    "LSB Matching": {
+      "algorithmFamily": "Classical",
+      "description": "LSB (Least Significant Bit) Matching modifies random bits in the least significant bit positions to match neighboring pixels, reducing artifacts compared to traditional LSB replacement. It provides a simple yet effective method with high capacity and good visual quality for grayscale images.",
+      "datasetProfile": "BOSSBase-256"
+    },
+    "LSB Replacement": {
+      "algorithmFamily": "Classical",
+      "description": "LSB (Least Significant Bit) Replacement is the classic steganography method that replaces the least significant bits of pixel values with secret data. It provides maximum embedding capacity but creates detectable patterns that can be identified by steganalysis tools.",
+      "datasetProfile": "BOSSBase-256"
+    },
+    "F5": {
+      "algorithmFamily": "JPEG",
+      "description": "F5 is a JPEG steganography algorithm that embeds data in quantized DCT coefficients using matrix encoding. It minimizes embedding distortion by utilizing coefficient grouping and matrix encoding techniques, providing high capacity with good visual quality in the JPEG domain.",
+      "datasetProfile": "ALASKA2-JPEG90"
+    },
+    "OutGuess": {
+      "algorithmFamily": "JPEG",
+      "description": "OutGuess is a JPEG steganography algorithm that preserves statistical properties of the image to avoid detection. It dynamically adjusts embedding based on the host image characteristics and updates the DCT coefficients to maintain consistency with the surrounding values.",
+      "datasetProfile": "ALASKA2-JPEG75"
+    },
+    "YASS": {
+      "algorithmFamily": "JPEG",
+      "description": "YASS (Yet Another Steganography Scheme) is a JPEG steganography algorithm that embeds data in a pseudo-random pattern throughout the image. It uses a secret key to determine embedding locations and modifies DCT coefficients in a way that minimizes detectability.",
+      "datasetProfile": "ALASKA2-JPEG90"
+    },
+    "HILL": {
+      "algorithmFamily": "Spatial",
+      "description": "HILL (Hiding Information with Low Complexity) is a spatial domain steganography algorithm that uses adaptive pixel value differencing to embed data. It adjusts the embedding strength based on local image complexity, providing good security with computational efficiency.",
+      "datasetProfile": "BOSSBase-512"
+    },
+    "MVG": {
+      "algorithmFamily": "Spatial",
+      "description": "MVG (Modified Variance Gain) steganography uses variance-based embedding in spatial domain. It calculates local variance and adapts embedding strength accordingly, maximizing capacity while maintaining good visual quality and security against steganalysis.",
+      "datasetProfile": "BOSSBase-256"
+    },
+    "Adaptive HUGO": {
+      "algorithmFamily": "Spatial",
+      "description": "Adaptive HUGO enhances the original HUGO algorithm with additional adaptation mechanisms for different image types. It provides improved performance on various image datasets while maintaining the core principles of minimal embedding distortion and high security.",
+      "datasetProfile": "DIV2K-Grayscale"
+    },
+    "UT-GAN": {
+      "algorithmFamily": "GAN",
+      "description": "UT-GAN (Unified Transform GAN) is a unified steganography framework that combines multiple transformation domains within a GAN architecture. It provides flexible embedding with excellent security and visual quality across various image types and datasets.",
+      "datasetProfile": "DIV2K-Color"
+    },
+    "U-Net Stego": {
+      "algorithmFamily": "Deep",
+      "description": "U-Net Stego adapts the U-Net architecture for steganographic embedding tasks. The encoder-decoder structure allows for high-capacity embedding with excellent visual quality preservation, while the skip connections ensure detailed reconstruction of the original image.",
+      "datasetProfile": "COCO-2017"
+    },
+    "Edge-Adaptive LSB": {
+      "algorithmFamily": "Classical",
+      "description": "Edge-Adaptive LSB improves traditional LSB by embedding data based on edge information. It places more data in complex regions where changes are less perceptible, providing better visual quality and security compared to standard LSB methods.",
+      "datasetProfile": "USC-SIPI"
+    },
+    "PVD": {
+      "algorithmFamily": "Classical",
+      "description": "PVD (Pixel Value Differencing) embeds data by modifying pixel values based on local image differences. It provides good capacity and visual quality by utilizing the variance between neighboring pixels, making it suitable for images with smooth transitions.",
+      "datasetProfile": "USC-SIPI"
+    },
+    "DE-Embedding": {
+      "algorithmFamily": "Classical",
+      "description": "DE-Embedding is a reversible steganography technique that allows perfect recovery of the original image after data extraction. It uses advanced embedding techniques that preserve the original image information while maximizing payload capacity.",
+      "datasetProfile": "BOSSBase-256"
+    },
+    "Syndrome-Trellis Codes": {
+      "algorithmFamily": "Coding",
+      "description": "Syndrome-Trellis Codes use coding theory to create secure steganographic embeddings. The trellis structure optimizes the embedding process to maximize capacity while minimizing distortion, providing excellent performance with strong security guarantees.",
+      "datasetProfile": "ALASKA2-JPEG75"
+    },
+    "HUGO++": {
+      "algorithmFamily": "Spatial",
+      "description": "HUGO++ is an enhanced version of the original HUGO algorithm with improved optimization techniques and better security against modern steganalysis attacks. It maintains the core principles of HUGO while providing enhanced performance across various metrics.",
+      "datasetProfile": "BOSSBase-512"
+    },
+    "example_lsb": {
+      "algorithmFamily": "Classical",
+      "description": "Example LSB implementation using a custom approach to demonstrate steganographic embedding capabilities.",
+      "datasetProfile": "BOSSBase-256"
+    }
+  },
+  "defaults": {
+    "payloadBpp": 0.4,
+    "runtimeMs": 100
+  }
+}

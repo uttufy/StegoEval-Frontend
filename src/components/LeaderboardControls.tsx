@@ -33,9 +33,11 @@ export function LeaderboardControls({
         >
           <option value="rank">Rank</option>
           <option value="compositeScore">Composite</option>
-          <option value="qualityScore">Quality</option>
-          <option value="costPer1MInput">Input Cost</option>
-          <option value="latencyMs">Latency</option>
+          <option value="psnrDb">PSNR (dB)</option>
+          <option value="ssim">SSIM</option>
+          <option value="ber">BER</option>
+          <option value="payloadBpp">Payload (bpp)</option>
+          <option value="recoveryRate">Recovery Rate</option>
           <option value="lastEvaluated">Last Evaluated</option>
         </select>
       </label>
@@ -67,15 +69,15 @@ export function LeaderboardControls({
         </select>
       </label>
 
-      <label className="mini-field search-field" htmlFor="model-search">
-        <span className="sr-only">Search by model or provider</span>
+      <label className="mini-field search-field" htmlFor="algorithm-search">
+        <span className="sr-only">Search by algorithm or profile</span>
         <input
-          id="model-search"
+          id="algorithm-search"
           type="search"
-          placeholder="Search by model or provider"
+          placeholder="Search by algorithm or profile"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          aria-label="Search models"
+          aria-label="Search algorithms"
         />
       </label>
     </section>

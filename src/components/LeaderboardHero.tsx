@@ -12,7 +12,7 @@ export function LeaderboardHero({ onExploreRanking }: LeaderboardHeroProps) {
           <span className="brand-mark" aria-hidden>
             ◉
           </span>
-          <p>LLM Leaderboards</p>
+          <p>Steganography Leaderboard</p>
         </div>
 
         <nav className="hero-tabs" aria-label="Leaderboard categories">
@@ -31,11 +31,11 @@ export function LeaderboardHero({ onExploreRanking }: LeaderboardHeroProps) {
 
       <div className="hero-main">
         <div>
-          <p className="hero-kicker">Frontier Evaluation Surface</p>
-          <h1 id="hero-title">LLM Leaderboards</h1>
+          <p className="hero-kicker">Stego Benchmark Surface</p>
+          <h1 id="hero-title">Steganography Algorithm Leaderboard</h1>
           <p className="hero-copy">
-            Discover, compare, and track leading models with one clean view of quality, latency,
-            and cost.
+            Discover, compare, and track steganography algorithms with one clean view of PSNR, BER,
+            payload capacity, and runtime.
           </p>
           <button type="button" className="button button-primary hero-cta" onClick={onExploreRanking}>
             Start Exploring →
@@ -44,8 +44,8 @@ export function LeaderboardHero({ onExploreRanking }: LeaderboardHeroProps) {
 
         <aside>
           <p>
-            SEAL-inspired ranking cards evaluate agentic, frontier, and safety model performance
-            using clear benchmark criteria and practical cost-speed tradeoffs.
+            These ranking cards evaluate imperceptibility, extraction reliability, payload capacity,
+            and runtime across consistent StegoEval benchmark profiles.
           </p>
         </aside>
       </div>

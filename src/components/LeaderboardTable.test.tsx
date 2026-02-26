@@ -8,7 +8,9 @@ describe("LLM Leaderboard UI", () => {
   it("renders hero, metrics, podium, and global ranking by default", async () => {
     render(<LeaderboardPage />);
 
-    expect(await screen.findByRole("heading", { name: "LLM Leaderboards" })).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Steganography Algorithm Leaderboard" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Start Exploring →" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Agentic" })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: "Your Metrics" })).toBeInTheDocument();
@@ -35,18 +37,18 @@ describe("LLM Leaderboard UI", () => {
 
     await screen.findByRole("heading", { name: "Global Ranking" });
     expect(screen.getByLabelText("Ranking controls")).toBeInTheDocument();
-    expect(screen.getByRole("searchbox", { name: "Search models" })).toBeInTheDocument();
+    expect(screen.getByRole("searchbox", { name: "Search algorithms" })).toBeInTheDocument();
   });
 
-  it("filters by provider search", async () => {
+  it("filters by dataset profile search", async () => {
     const user = userEvent.setup();
     render(<LeaderboardPage />);
 
     await screen.findByRole("heading", { name: "Global Ranking" });
-    await user.type(screen.getByRole("searchbox", { name: "Search models" }), "anthropic");
+    await user.type(screen.getByRole("searchbox", { name: "Search algorithms" }), "bossbase");
 
     const table = screen.getByRole("table", { name: /global ranking table/i });
-    expect(within(table).getAllByText(/Anthropic/).length).toBeGreaterThan(0);
+    expect(within(table).getAllByText(/BOSSBase/).length).toBeGreaterThan(0);
   });
 
   it("updates ordering when sort key and direction change", async () => {
@@ -54,7 +56,7 @@ describe("LLM Leaderboard UI", () => {
     render(<LeaderboardPage />);
 
     await screen.findByRole("heading", { name: "Global Ranking" });
-    await user.selectOptions(screen.getByLabelText("Sort key"), "latencyMs");
+    await user.selectOptions(screen.getByLabelText("Sort key"), "payloadBpp");
     await user.selectOptions(screen.getByLabelText("Sort direction"), "asc");
 
     const table = screen.getByRole("table", { name: /global ranking table/i });
@@ -67,10 +69,10 @@ describe("LLM Leaderboard UI", () => {
     render(<LeaderboardPage />);
 
     await screen.findByRole("heading", { name: "Global Ranking" });
-    await user.type(screen.getByRole("searchbox", { name: "Search models" }), "no-such-model");
+    await user.type(screen.getByRole("searchbox", { name: "Search algorithms" }), "no-such-algorithm");
 
     expect(
-      screen.getByText("No models match your search. Try a provider name or model family.")
+      screen.getByText("No algorithms match your search. Try an algorithm or dataset profile.")
     ).toBeInTheDocument();
   });
 

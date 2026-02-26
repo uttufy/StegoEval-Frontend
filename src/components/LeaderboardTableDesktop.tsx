@@ -1,8 +1,9 @@
 import {
-  formatContextWindow,
-  formatCost,
+  formatBer,
   formatLastEvaluated,
-  formatLatency
+  formatPayload,
+  formatPsnr,
+  formatRuntime
 } from "@/lib/leaderboard";
 import type { LeaderboardEntry } from "@/types/leaderboard";
 
@@ -13,19 +14,19 @@ interface LeaderboardTableDesktopProps {
 
 export function LeaderboardTableDesktop({ entries, rankById }: LeaderboardTableDesktopProps) {
   return (
-    <section className="desktop-table" aria-label="LLM ranking table">
+    <section className="desktop-table" aria-label="Steganography ranking table">
       <table>
-        <caption className="sr-only">LLM leaderboard table</caption>
+        <caption className="sr-only">Steganography leaderboard table</caption>
         <thead>
           <tr>
             <th scope="col">Rank</th>
-            <th scope="col">Model</th>
-            <th scope="col">Provider</th>
+            <th scope="col">Algorithm</th>
+            <th scope="col">Dataset Profile</th>
             <th scope="col">Composite</th>
-            <th scope="col">Quality</th>
-            <th scope="col">Input Cost</th>
-            <th scope="col">Latency</th>
-            <th scope="col">Context</th>
+            <th scope="col">PSNR (dB)</th>
+            <th scope="col">BER</th>
+            <th scope="col">Payload</th>
+            <th scope="col">Runtime</th>
             <th scope="col">Last Evaluated</th>
           </tr>
         </thead>
@@ -33,13 +34,13 @@ export function LeaderboardTableDesktop({ entries, rankById }: LeaderboardTableD
           {entries.map((entry) => (
             <tr key={entry.id}>
               <td>#{rankById.get(entry.id) ?? "-"}</td>
-              <td>{entry.modelName}</td>
-              <td>{entry.provider}</td>
+              <td>{entry.algorithmName}</td>
+              <td>{entry.datasetProfile}</td>
               <td>{entry.compositeScore.toFixed(1)}</td>
-              <td>{entry.qualityScore.toFixed(1)}</td>
-              <td>{formatCost(entry.costPer1MInput)}</td>
-              <td>{formatLatency(entry.latencyMs)}</td>
-              <td>{formatContextWindow(entry.contextWindow)}</td>
+              <td>{formatPsnr(entry.psnrDb)}</td>
+              <td>{formatBer(entry.ber)}</td>
+              <td>{formatPayload(entry.payloadBpp)}</td>
+              <td>{formatRuntime(entry.runtimeMs)}</td>
               <td>{formatLastEvaluated(entry.lastEvaluatedIso)}</td>
             </tr>
           ))}

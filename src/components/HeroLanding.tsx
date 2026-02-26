@@ -2,32 +2,32 @@ import type { LeaderboardEntry } from "@/types/leaderboard";
 
 interface HeroLandingProps {
   topTenCount: number;
-  bestModel: LeaderboardEntry | undefined;
+  bestAlgorithm: LeaderboardEntry | undefined;
   onOpenFull: () => void;
 }
 
-export function HeroLanding({ topTenCount, bestModel, onOpenFull }: HeroLandingProps) {
+export function HeroLanding({ topTenCount, bestAlgorithm, onOpenFull }: HeroLandingProps) {
   return (
-    <header className="hero-landing" aria-labelledby="llm-leaderboard-title">
-      <p className="eyebrow">LLM Benchmark Index</p>
-      <h1 id="llm-leaderboard-title">Rank LLMs with a simple, trusted score.</h1>
+    <header className="hero-landing" aria-labelledby="stego-leaderboard-title">
+      <p className="eyebrow">Steganography Benchmark Index</p>
+      <h1 id="stego-leaderboard-title">Rank steganography algorithms with a trusted score.</h1>
       <p className="hero-copy">
-        Compare model quality, cost, and latency in one clean leaderboard designed for fast model
-        selection.
+        Compare PSNR, BER, payload, and runtime in one clean leaderboard designed for fast
+        algorithm selection.
       </p>
 
       <div className="hero-kpis" role="list" aria-label="Benchmark highlights">
         <p role="listitem">
-          <span>Models tracked</span>
+          <span>Algorithms tracked</span>
           <strong>{topTenCount}+</strong>
         </p>
         <p role="listitem">
-          <span>Top model</span>
-          <strong>{bestModel?.modelName ?? "-"}</strong>
+          <span>Top algorithm</span>
+          <strong>{bestAlgorithm?.algorithmName ?? "-"}</strong>
         </p>
         <p role="listitem">
           <span>Updated</span>
-          <strong>{bestModel ? "Today" : "-"}</strong>
+          <strong>{bestAlgorithm ? "Today" : "-"}</strong>
         </p>
       </div>
 

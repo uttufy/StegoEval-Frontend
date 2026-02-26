@@ -115,7 +115,7 @@ export function LeaderboardPage() {
         ref={rankingSectionRef}
         className={`full-rankings ${viewMode === "full" ? "is-visible" : "is-hidden"}`}
         tabIndex={-1}
-        aria-label="Full LLM rankings"
+        aria-label="Full steganography algorithm rankings"
       >
         <header className="ranking-header">
           <h2>Global Ranking</h2>
@@ -143,7 +143,7 @@ export function LeaderboardPage() {
 
         {viewMode === "full" && pageItems.length === 0 ? (
           <section className="status-panel" aria-live="polite">
-            No models match your search. Try a provider name or model family.
+            No algorithms match your search. Try an algorithm or dataset profile.
           </section>
         ) : null}
 
@@ -161,13 +161,13 @@ export function LeaderboardPage() {
           <div className="about-copy">
             <h2>About StegoEval Leaderboard</h2>
             <p>
-              This leaderboard presents comparative LLM rankings powered by benchmark results from
-              StegoEval.
+              This leaderboard presents comparative steganography algorithm rankings powered by
+              benchmark results from StegoEval.
             </p>
             <ul className="about-list">
               <li>Benchmarking tool: StegoEval (open-source repository)</li>
-              <li>Ranking dimensions: quality, cost efficiency, and latency</li>
-              <li>Goal: transparent and repeatable model comparison for practical selection</li>
+              <li>Ranking dimensions: PSNR, BER, payload capacity, and runtime</li>
+              <li>Goal: transparent and repeatable algorithm comparison for practical selection</li>
             </ul>
             <p className="about-links">
               Benchmark repository:{" "}
@@ -206,7 +206,7 @@ export function LeaderboardPage() {
 
       <footer className="site-footer">
         <div className="footer-inner">
-          <p>© 2026 LLM Leaderboards</p>
+          <p>© 2026 Steganography Algorithm Leaderboard</p>
           <div className="footer-links">
             <a href="https://github.com/uttufy/StegoEval" target="_blank" rel="noreferrer noopener">
               github.com/uttufy/StegoEval

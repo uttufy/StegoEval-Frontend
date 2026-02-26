@@ -1,4 +1,4 @@
-import { formatCost, formatLatency } from "@/lib/leaderboard";
+import { formatBer, formatPayload, formatRuntime } from "@/lib/leaderboard";
 import type { LeaderboardEntry } from "@/types/leaderboard";
 
 interface TopTenSnapshotProps {
@@ -9,7 +9,7 @@ interface TopTenSnapshotProps {
 
 export function TopTenSnapshot({ entries, rankById, onOpenFull }: TopTenSnapshotProps) {
   return (
-    <section className="snapshot" aria-label="Top 10 model snapshot">
+    <section className="snapshot" aria-label="Top 10 algorithm snapshot">
       <div className="snapshot-head">
         <h3>Top 10 Snapshot</h3>
         <button type="button" className="button button-secondary" onClick={onOpenFull}>
@@ -22,13 +22,14 @@ export function TopTenSnapshot({ entries, rankById, onOpenFull }: TopTenSnapshot
           <li key={entry.id}>
             <p>
               <span>#{rankById.get(entry.id) ?? "-"}</span>
-              <strong>{entry.modelName}</strong>
-              <small>{entry.provider}</small>
+              <strong>{entry.algorithmName}</strong>
+              <small>{entry.datasetProfile}</small>
             </p>
             <p>
               <span>Score {entry.compositeScore.toFixed(1)}</span>
-              <span>{formatCost(entry.costPer1MInput)}</span>
-              <span>{formatLatency(entry.latencyMs)}</span>
+              <span>BER {formatBer(entry.ber)}</span>
+              <span>{formatPayload(entry.payloadBpp)}</span>
+              <span>{formatRuntime(entry.runtimeMs)}</span>
             </p>
           </li>
         ))}
