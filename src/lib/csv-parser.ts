@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'path';
 
 interface ScoreRow {
   algorithm: string;
@@ -27,45 +28,99 @@ interface CategoryScoreRow {
   images_tested: number;
 }
 
+interface AlgorithmMetadata {
+  [key: string]: {
+    algorithmFamily: string;
+    description: string;
+    datasetProfile: string;
+  };
+}
+
+interface AlgorithmDefaults {
+  payloadBpp: number;
+  runtimeMs: number;
+}
+
 export function parseScoresCsv(csvPath: string): ScoreRow[] {
+  if (!fs.existsSync(csvPath)) {
+    throw new Error(`Scores CSV file not found: ${csvPath}`);
+  }
+
   const content = fs.readFileSync(csvPath, 'utf-8');
   const lines = content.split('\n').slice(1).filter(Boolean);
-  return lines.map(line => {
+
+  if (lines.length === 0) {
+    console.warn(`No data found in scores CSV: ${csvPath}`);
+    return [];
+  }
+
+  return lines.map((line, index) => {
     const values = line.split(',');
-    return {
-      algorithm: values[0]?.trim() || '',
-      compression_score: parseFloat(values[1] || '0') || 0,
-      blur_score: parseFloat(values[2] || '0') || 0,
-      noise_score: parseFloat(values[3] || '0') || 0,
-      geometric_score: parseFloat(values[4] || '0') || 0,
-      combo_score: values[5] ? parseFloat(values[5]) : undefined,
-      capacity_score: parseFloat(values[6] || '0') || 0,
-      overall_score: parseFloat(values[7] || '0') || 0,
-      total_images: parseInt(values[8] || '0', 10),
-      total_payloads_recovered: parseInt(values[9] || '0', 10),
-      overall_recovery_rate: parseFloat(values[10] || '0') || 0,
-    };
+    try {
+      return {
+        algorithm: values[0]?.trim() || '',
+        compression_score: parseFloat(values[1] || '0') || 0,
+        blur_score: parseFloat(values[2] || '0') || 0,
+        noise_score: parseFloat(values[3] || '0') || 0,
+        geometric_score: parseFloat(values[4] || '0') || 0,
+        combo_score: values[5] ? parseFloat(values[5]) : undefined,
+        capacity_score: parseFloat(values[6] || '0') || 0,
+        overall_score: parseFloat(values[7] || '0') || 0,
+        total_images: parseInt(values[8] || '0', 10),
+        total_payloads_recovered: parseInt(values[9] || '0', 10),
+        overall_recovery_rate: parseFloat(values[10] || '0') || 0,
+      };
+    } catch (error) {
+      console.error(`Error parsing line ${index + 2} in scores CSV:`, line, error);
+      throw error;
+    }
   });
 }
 
 export function parseCategoryScoresCsv(csvPath: string): CategoryScoreRow[] {
+  if (!fs.existsSync(csvPath)) {
+    throw new Error(`Category scores CSV file not found: ${csvPath}`);
+  }
+
   const content = fs.readFileSync(csvPath, 'utf-8');
   const lines = content.split('\n').slice(1).filter(Boolean);
-  return lines.map(line => {
+
+  if (lines.length === 0) {
+    console.warn(`No data found in category scores CSV: ${csvPath}`);
+    return [];
+  }
+
+  return lines.map((line, index) => {
     const values = line.split(',');
-    return {
-      algorithm: values[0]?.trim() || '',
-      attack_category: values[1]?.trim() || '',
-      avg_ssim: parseFloat(values[2] || '0') || 0,
-      avg_psnr: parseFloat(values[3] || '0') || 0,
-      avg_ber: parseFloat(values[4] || '0') || 0,
-      recovery_rate: parseFloat(values[5] || '0') || 0,
-      distortion_score: parseFloat(values[6] || '0') || 0,
-      robustness_score: parseFloat(values[7] || '0') || 0,
-      overall_score: parseFloat(values[8] || '0') || 0,
-      images_tested: parseInt(values[9] || '0', 10),
-    };
+    try {
+      return {
+        algorithm: values[0]?.trim() || '',
+        attack_category: values[1]?.trim() || '',
+        avg_ssim: parseFloat(values[2] || '0') || 0,
+        avg_psnr: parseFloat(values[3] || '0') || 0,
+        avg_ber: parseFloat(values[4] || '0') || 0,
+        recovery_rate: parseFloat(values[5] || '0') || 0,
+        distortion_score: parseFloat(values[6] || '0') || 0,
+        robustness_score: parseFloat(values[7] || '0') || 0,
+        overall_score: parseFloat(values[8] || '0') || 0,
+        images_tested: parseInt(values[9] || '0', 10),
+      };
+    } catch (error) {
+      console.error(`Error parsing line ${index + 2} in category scores CSV:`, line, error);
+      throw error;
+    }
   });
+}
+
+function loadAlgorithmMetadata(): { algorithms: AlgorithmMetadata; defaults?: AlgorithmDefaults } {
+  const metadataPath = path.join(__dirname, '../data/algorithm-metadata.json');
+  if (!fs.existsSync(metadataPath)) {
+    console.warn(`Algorithm metadata not found at ${metadataPath}`);
+    return { algorithms: {} };
+  }
+
+  const content = fs.readFileSync(metadataPath, 'utf-8');
+  return JSON.parse(content);
 }
 
 export function generateLeaderboardEntries(
@@ -75,6 +130,7 @@ export function generateLeaderboardEntries(
 ): void {
   const scores = parseScoresCsv(scoresPath);
   const categoryScores = parseCategoryScoresCsv(categoryScoresPath);
+  const { algorithms: algorithmMetadata, defaults: globalDefaults } = loadAlgorithmMetadata();
 
   // Map algorithm name to category scores
   const categoryScoresByAlg = new Map<string, Map<string, CategoryScoreRow>>();
@@ -92,18 +148,27 @@ export function generateLeaderboardEntries(
     const avgPsnr = cleanScore?.avg_psnr ?? 0;
     const avgBer = cleanScore?.avg_ber ?? 0;
 
+    // Get algorithm metadata or use defaults
+    const metadata = algorithmMetadata[score.algorithm] || {
+      algorithmFamily: "Classical",
+      description: `${score.algorithm} steganography algorithm`,
+      datasetProfile: "BOSSBase-256"
+    };
+    const defaults = globalDefaults || { payloadBpp: 0.4, runtimeMs: 100 };
+
     return {
       id: `alg-${index + 1}`,
       algorithmName: score.algorithm,
-      datasetProfile: "BOSSBase-256", // Default or parse from CSV
-      algorithmFamily: "Classical",   // Default or parse from CSV
+      datasetProfile: metadata.datasetProfile,
+      algorithmFamily: metadata.algorithmFamily,
+      description: metadata.description,
       compositeScore: score.overall_score,
       psnrDb: avgPsnr,
       ssim: ssim,
       ber: avgBer,
-      payloadBpp: 0.4,               // Default or parse from CSV
+      payloadBpp: defaults.payloadBpp,
       recoveryRate: score.overall_recovery_rate * 100,
-      runtimeMs: 100,                 // Default or parse from CSV
+      runtimeMs: defaults.runtimeMs,
       lastEvaluatedIso: new Date().toISOString(),
       compressionScore: score.compression_score,
       blurScore: score.blur_score,
@@ -112,6 +177,12 @@ export function generateLeaderboardEntries(
       capacityScore: score.capacity_score,
     };
   });
+
+  // Ensure output directory exists
+  const outputDir = path.dirname(outputPath);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
   fs.writeFileSync(outputPath, JSON.stringify(entries, null, 2));
   console.log(`Generated ${entries.length} entries in ${outputPath}`);

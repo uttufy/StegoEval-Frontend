@@ -1,8 +1,10 @@
 [
   {
-    "id": "alg-examplelsb",
+    "id": "alg-1",
     "algorithmName": "example_lsb",
     "datasetProfile": "BOSSBase-256",
+    "algorithmFamily": "Classical",
+    "description": "Example LSB implementation using a custom approach to demonstrate steganographic embedding capabilities.",
     "compositeScore": 56.86353062762991,
     "psnrDb": 71.21055573175155,
     "ssim": 0.9999742671785421,
@@ -10,13 +12,11 @@
     "payloadBpp": 0.4,
     "recoveryRate": 3.4482758620689653,
     "runtimeMs": 100,
-    "lastEvaluatedIso": "2026-02-26T09:46:42.160Z",
-    "algorithmFamily": "Classical",
-    "description": "Example LSB implementation using a custom approach to demonstrate steganographic embedding capabilities.",
-    "compressionScore": 81.72885139977363,
-    "blurScore": 75.81493486828859,
-    "noiseScore": 25.02399686496733,
-    "geometricScore": 52.76109410756726,
-    "capacityScore": 99.99819870249794
+    "lastEvaluatedIso": "2026-02-26T11:48:32.359Z",
+    "compressionScore": 32.691540559909456,
+    "blurScore": 30.325973947315436,
+    "noiseScore": 46.59481846918192,
+    "geometricScore": 53.84370582025396,
+    "capacityScore": 99.99927948099918
   }
 ]
