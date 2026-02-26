@@ -2,74 +2,99 @@
 
 import { formatPsnr, formatBer, formatPayload, formatRuntime, formatSsim, formatRecoveryRate } from "@/lib/leaderboard";
 import type { LeaderboardEntry } from "@/types/leaderboard";
-import { useEffect, useState } from "react";
+import { useStaggeredIntersection } from "@/hooks/useIntersectionObserver";
+import { useMemo } from "react";
 
 export interface PerformanceMetricsProps {
   entry: LeaderboardEntry;
 }
 
-export function PerformanceMetrics({ entry }: PerformanceMetricsProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+interface MetricCard {
+  key: string;
+  label: string;
+  value: string;
+  color: string;
+  delay: number;
+}
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+export function PerformanceMetrics({ entry }: PerformanceMetricsProps) {
+  const psnrCard = useStaggeredIntersection<HTMLDivElement>(0);
+  const ssimCard = useStaggeredIntersection<HTMLDivElement>(80);
+  const berCard = useStaggeredIntersection<HTMLDivElement>(160);
+  const payloadCard = useStaggeredIntersection<HTMLDivElement>(240);
+  const recoveryCard = useStaggeredIntersection<HTMLDivElement>(320);
+  const runtimeCard = useStaggeredIntersection<HTMLDivElement>(400);
+
+  const metrics: MetricCard[] = useMemo(() => [
+    {
+      key: "psnr",
+      label: "PSNR",
+      value: formatPsnr(entry.psnrDb),
+      color: "#3b82f6",
+      delay: 0,
+    },
+    {
+      key: "ssim",
+      label: "SSIM",
+      value: formatSsim(entry.ssim),
+      color: "#31c99d",
+      delay: 80,
+    },
+    {
+      key: "ber",
+      label: "BER",
+      value: formatBer(entry.ber),
+      color: "#ef4444",
+      delay: 160,
+    },
+    {
+      key: "payload",
+      label: "Payload",
+      value: formatPayload(entry.payloadBpp),
+      color: "#8b5cf6",
+      delay: 240,
+    },
+    {
+      key: "recovery",
+      label: "Recovery",
+      value: formatRecoveryRate(entry.recoveryRate),
+      color: "#10b981",
+      delay: 320,
+    },
+    {
+      key: "runtime",
+      label: "Runtime",
+      value: formatRuntime(entry.runtimeMs),
+      color: "#f59e0b",
+      delay: 400,
+    },
+  ], [entry]);
+
+  function MetricCard({ metric, ref, show }: { metric: MetricCard; ref: React.RefObject<HTMLDivElement | null>; show: boolean }) {
+    return (
+      <div
+        ref={ref}
+        className={`metric-ring-compact ${show ? "is-visible" : ""}`}
+        style={{ animationDelay: `${metric.delay}ms` }}
+      >
+        <div className="metric-ring-content">
+          <span className="metric-ring-value" style={{ color: metric.color }}>
+            {metric.value}
+          </span>
+          <span className="metric-ring-label">{metric.label}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="performance-metrics-grid">
-      <div className={`metric-card psnr-card metric-fade ${isLoaded ? "is-visible" : ""}`}>
-        <div className="metric-icon psnr-icon">PS</div>
-        <div className="metric-content">
-          <span className="metric-value">{formatPsnr(entry.psnrDb)}</span>
-          <span className="metric-label">PSNR</span>
-        </div>
-        <div className="metric-indicator psnr-indicator" style={{ width: `${(entry.psnrDb / 50) * 100}%` }} />
-      </div>
-
-      <div className={`metric-card ssim-card metric-fade ${isLoaded ? "is-visible" : ""}`} style={{ animationDelay: "50ms" }}>
-        <div className="metric-icon ssim-icon">SS</div>
-        <div className="metric-content">
-          <span className="metric-value">{formatSsim(entry.ssim)}</span>
-          <span className="metric-label">SSIM</span>
-        </div>
-        <div className="metric-indicator ssim-indicator" style={{ width: `${entry.ssim * 100}%` }} />
-      </div>
-
-      <div className={`metric-card ber-card metric-fade ${isLoaded ? "is-visible" : ""}`} style={{ animationDelay: "100ms" }}>
-        <div className="metric-icon ber-icon">BE</div>
-        <div className="metric-content">
-          <span className="metric-value">{formatBer(entry.ber)}</span>
-          <span className="metric-label">BER</span>
-        </div>
-        <div className="metric-indicator ber-indicator" style={{ width: `${(1 - entry.ber) * 100}%` }} />
-      </div>
-
-      <div className={`metric-card payload-card metric-fade ${isLoaded ? "is-visible" : ""}`} style={{ animationDelay: "150ms" }}>
-        <div className="metric-icon payload-icon">PL</div>
-        <div className="metric-content">
-          <span className="metric-value">{formatPayload(entry.payloadBpp)}</span>
-          <span className="metric-label">Payload</span>
-        </div>
-        <div className="metric-indicator payload-indicator" style={{ width: `${(entry.payloadBpp / 1) * 100}%` }} />
-      </div>
-
-      <div className={`metric-card recovery-card metric-fade ${isLoaded ? "is-visible" : ""}`} style={{ animationDelay: "200ms" }}>
-        <div className="metric-icon recovery-icon">RR</div>
-        <div className="metric-content">
-          <span className="metric-value">{formatRecoveryRate(entry.recoveryRate)}</span>
-          <span className="metric-label">Recovery Rate</span>
-        </div>
-        <div className="metric-indicator recovery-indicator" style={{ width: `${entry.recoveryRate}%` }} />
-      </div>
-
-      <div className={`metric-card runtime-card metric-fade ${isLoaded ? "is-visible" : ""}`} style={{ animationDelay: "250ms" }}>
-        <div className="metric-icon runtime-icon">RT</div>
-        <div className="metric-content">
-          <span className="metric-value">{formatRuntime(entry.runtimeMs)}</span>
-          <span className="metric-label">Runtime</span>
-        </div>
-        <div className="metric-indicator runtime-indicator" style={{ width: `${Math.min((300 - entry.runtimeMs) / 300, 1) * 100}%` }} />
-      </div>
+    <div className="performance-rings-grid">
+      <MetricCard metric={metrics[0]} ref={psnrCard.ref} show={psnrCard.show} />
+      <MetricCard metric={metrics[1]} ref={ssimCard.ref} show={ssimCard.show} />
+      <MetricCard metric={metrics[2]} ref={berCard.ref} show={berCard.show} />
+      <MetricCard metric={metrics[3]} ref={payloadCard.ref} show={payloadCard.show} />
+      <MetricCard metric={metrics[4]} ref={recoveryCard.ref} show={recoveryCard.show} />
+      <MetricCard metric={metrics[5]} ref={runtimeCard.ref} show={runtimeCard.show} />
     </div>
   );
 }
