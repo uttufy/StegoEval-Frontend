@@ -126,6 +126,56 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
           </div>
         </div>
       </section>
+
+      <section className="downloads-section">
+        <h2 className="section-title">Download Files</h2>
+        <div className="downloads-card">
+          <h3 className="downloads-title">Evaluation Results</h3>
+          <div className="download-links">
+            <a
+              href={`/api/download?file=scores-test-run.csv&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+              className="download-link"
+              download={`scores-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.csv`}
+            >
+              <span className="download-icon">📊</span>
+              <span className="download-text">Algorithm Scores (CSV)</span>
+            </a>
+            <a
+              href={`/api/download?file=scores-test-run-by-category.csv&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+              className="download-link"
+              download={`scores-by-category-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.csv`}
+            >
+              <span className="download-icon">📈</span>
+              <span className="download-text">Attack Category Scores (CSV)</span>
+            </a>
+          </div>
+
+          <div className="spacer"></div>
+          <h3 className="downloads-title">Detailed Results</h3>
+          <div className="download-links">
+            <a
+              href={`/api/download?file=results-test-run.csv&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+              className="download-link"
+              download={`results-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.csv`}
+            >
+              <span className="download-icon">📋</span>
+              <span className="download-text">Full Results (CSV)</span>
+            </a>
+            <a
+              href={`/api/download?file=summary-test-run.md&algorithm=${encodeURIComponent(entry.algorithmName)}`}
+              className="download-link"
+              download={`summary-${entry.algorithmName.replace(/\s+/g, '-').toLowerCase()}.md`}
+            >
+              <span className="download-icon">📝</span>
+              <span className="download-text">Evaluation Summary (Markdown)</span>
+            </a>
+          </div>
+
+          <div className="download-note">
+            <p>Download individual evaluation results for this algorithm. Files contain detailed performance metrics and attack scores.</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
