@@ -100,7 +100,7 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
       <div ref={heroRef.ref}>
         <header
           ref={heroParallax.ref}
-          className={`hero-section ${heroRef.isVisible ? "is-visible" : ""}`}
+          className={`hero-section hero-section-indigo ${heroRef.isVisible ? "is-visible" : ""}`}
           style={{
             transform: `translate(${heroParallax.transform.x}px, ${heroParallax.transform.y}px) rotateX(${heroParallax.transform.rotateX}deg) rotateY(${heroParallax.transform.rotateY}deg)`,
           }}
@@ -157,14 +157,14 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
       )}
 
       {/* Performance Rings Section */}
-      <section id="metrics" ref={perfRef.ref} className={`performance-section ${perfRef.isVisible ? "is-visible" : ""}`}>
+      <section id="metrics" ref={perfRef.ref} className={`performance-section performance-section-teal ${perfRef.isVisible ? "is-visible" : ""}`}>
         <h2 className="section-title-elegant">Performance Metrics</h2>
         <PerformanceMetrics entry={entry} />
       </section>
 
       {/* Attack Radar Section */}
       {hasAttackScores && (
-        <section id="resilience" ref={attackRef.ref} className={`attack-section ${attackRef.isVisible ? "is-visible" : ""}`}>
+        <section id="resilience" ref={attackRef.ref} className={`attack-section attack-section-purple ${attackRef.isVisible ? "is-visible" : ""}`}>
           <h2 className="section-title-elegant">Attack Resilience</h2>
           <div className="radar-wrapper">
             <AttackRadarChart entry={entry} />
@@ -173,7 +173,7 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
       )}
 
       {/* Details Section */}
-      <section id="specs" ref={detailsRef.ref} className={`details-section-elegant ${detailsRef.isVisible ? "is-visible" : ""}`}>
+      <section id="specs" ref={detailsRef.ref} className={`details-section-elegant details-section-sand ${detailsRef.isVisible ? "is-visible" : ""}`}>
         <h2 className="section-title-elegant">Technical Specifications</h2>
         <div className="specs-grid">
           <SpecCard label="Algorithm ID" value={entry.id} />
@@ -185,7 +185,7 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
       </section>
 
       {/* Score Calculation Info */}
-      <section id="score-info" ref={scoreInfoRef.ref} className={`score-info-section ${scoreInfoRef.isVisible ? "is-visible" : ""}`}>
+      <section id="score-info" ref={scoreInfoRef.ref} className={`score-info-section score-info-emerald ${scoreInfoRef.isVisible ? "is-visible" : ""}`}>
         <h2 className="section-title-elegant">How the Score is Calculated</h2>
         <div className="score-info-content">
           {/* Main Formula Card */}
@@ -288,7 +288,7 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
       </section>
 
       {/* Downloads Section */}
-      <section id="downloads" ref={downloadsRef.ref} className={`downloads-section-elegant ${downloadsRef.isVisible ? "is-visible" : ""}`}>
+      <section id="downloads" ref={downloadsRef.ref} className={`downloads-section-elegant downloads-section-amber ${downloadsRef.isVisible ? "is-visible" : ""}`}>
         <h2 className="section-title-elegant">Downloads</h2>
         <div className="downloads-grid-2x2">
           <DownloadCard
@@ -396,40 +396,21 @@ function DownloadCard({
 }
 
 // SVG Icons
-function IconChartBar() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M3 4h14a2 2 0 012 0v12a2 2 0 01-2-2H5a2 2 0 01-2-2V6a2 2 0 012-0h12z" />
-      <rect x="6" y="10" width="2" height="4" rx="0.5" />
-      <rect x="10" y="7" width="2" height="7" rx="0.5" />
-      <rect x="14" y="5" width="2" height="9" rx="0.5" />
-    </svg>
-  );
-}
-
 function IconChartLine() {
   return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M3 17h14a1 1 0 011-1v-8H5v8h12z" />
-      <path d="M6 5h2v6H6zM9 8h2v3H9zM12 6h2v5h12zM15 4h2v7h15z" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M3 3v18h18" />
+      <path d="M7 14l4-4 4 4 5-5" />
+      <circle cx="20" cy="7" r="2" fill="currentColor" />
     </svg>
   );
 }
 
 function IconTable() {
   return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="3" width="14" height="14" rx="2" />
-      <path d="M3 7h14M3 11h14M7 3v14M11 3v14" />
-    </svg>
-  );
-}
-
-function IconDocument() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M4 3h8l4 4v10a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" />
-      <path d="M12 3v4h4M8 10h4M8 13h4" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
     </svg>
   );
 }

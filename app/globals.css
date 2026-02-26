@@ -1,7 +1,10 @@
 :root {
+  /* Backgrounds & Surfaces */
   --bg: #f3f5f7;
   --surface: #ffffff;
   --surface-soft: #f6f7f9;
+
+  /* Existing Colors */
   --slate-1: #eef1f5;
   --slate-2: #d5dbe4;
   --mint-1: #31c99d;
@@ -9,28 +12,60 @@
   --sand-1: #f9f3e9;
   --blue-1: #edf2fb;
   --rose-1: #f9ecec;
+
+  /* Text & UI */
   --text: #101828;
   --muted: #667085;
   --line: #e4e7ec;
   --focus: #2aa884;
+
+  /* Shadows */
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
   --shadow-md: 0 10px 24px rgba(16, 24, 40, 0.08);
+
+  /* Space */
   --space-1: 8px;
   --space-2: 12px;
   --space-3: 16px;
   --space-4: 20px;
   --space-5: 24px;
+
+  /* Radius */
   --radius-card: 16px;
   --radius-panel: 18px;
+
+  /* Layout */
   --podium-base-height: 400px;
+
+  /* Glass Morphism */
   --glass-surface: rgba(255, 255, 255, 0.72);
   --glass-surface-strong: rgba(255, 255, 255, 0.84);
   --glass-border: rgba(255, 255, 255, 0.75);
   --glass-shadow: 0 16px 36px rgba(15, 23, 42, 0.1);
   --glass-blur: 10px;
   --glass-tint: rgba(86, 188, 164, 0.08);
+
+  /* Table Styles */
   --row-hover: rgba(135, 155, 184, 0.1);
   --row-top: rgba(255, 247, 211, 0.75);
+
+  /* Primary Colors */
+  --indigo-1: #4f46e5;
+  --teal-1: #0891b2;
+  --purple-1: #7c3aed;
+  --amber-1: #f59e0b;
+  --emerald-1: #10b981;
+
+  /* Secondary Glow Colors */
+  --indigo-glow: rgba(79, 70, 229, 0.12);
+  --teal-glow: rgba(8, 145, 178, 0.12);
+  --purple-glow: rgba(124, 58, 237, 0.12);
+  --amber-glow: rgba(245, 158, 11, 0.12);
+  --emerald-glow: rgba(16, 185, 129, 0.12);
+
+  /* Elegant Shadows */
+  --shadow-elegant-purple: 0 16px 36px rgba(124, 58, 237, 0.1);
+  --shadow-elegant-amber: 0 16px 36px rgba(245, 158, 11, 0.1);
 }
 
 * {
@@ -2509,8 +2544,8 @@ section:focus-visible {
   position: relative;
   padding: var(--space-5);
   background:
-    radial-gradient(circle at 50% 30%, rgba(49, 201, 157, 0.08), transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.04), transparent 50%),
+    radial-gradient(circle at 50% 30%, rgba(16, 185, 129, 0.08), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(8, 145, 178, 0.04), transparent 50%),
     linear-gradient(155deg, var(--glass-surface-strong), var(--glass-surface));
   border: 1px solid var(--glass-border);
   border-radius: 20px;
@@ -2527,7 +2562,7 @@ section:focus-visible {
   inset: -1px;
   border-radius: 20px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(49, 201, 157, 0.3), transparent 50%, rgba(59, 130, 246, 0.2));
+  background: linear-gradient(135deg, var(--emerald-1), transparent 50%, var(--teal-1));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -2546,7 +2581,7 @@ section:focus-visible {
   left: 50%;
   width: 60%;
   height: 60%;
-  background: radial-gradient(circle, rgba(49, 201, 157, 0.12), transparent 70%);
+  background: radial-gradient(circle, var(--emerald-glow), transparent 70%);
   transform: translate(-50%, -50%);
   animation: glowPulse 4s ease-in-out infinite;
   pointer-events: none;
@@ -2557,12 +2592,12 @@ section:focus-visible {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 1rem;
-  background: rgba(49, 201, 157, 0.1);
-  border: 1px solid rgba(49, 201, 157, 0.2);
+  background: var(--emerald-glow);
+  border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--mint-1);
+  color: var(--emerald-1);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: var(--space-4);
@@ -2606,13 +2641,13 @@ section:focus-visible {
 }
 
 .formula-component.distortion {
-  background: rgba(59, 130, 246, 0.12);
-  color: #3b82f6;
+  background: rgba(8, 145, 178, 0.12);
+  color: var(--teal-1);
 }
 
 .formula-component.robustness {
-  background: rgba(49, 201, 157, 0.12);
-  color: var(--mint-1);
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--emerald-1);
 }
 
 .formula-weight {
@@ -2688,15 +2723,15 @@ section:focus-visible {
 }
 
 .breakdown-icon.distortion-icon {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05));
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  color: #3b82f6;
+  background: linear-gradient(135deg, rgba(8, 145, 178, 0.15), rgba(8, 145, 178, 0.05));
+  border: 1px solid rgba(8, 145, 178, 0.2);
+  color: var(--teal-1);
 }
 
 .breakdown-icon.robustness-icon {
-  background: linear-gradient(135deg, rgba(49, 201, 157, 0.15), rgba(49, 201, 157, 0.05));
-  border: 1px solid rgba(49, 201, 157, 0.2);
-  color: var(--mint-1);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--emerald-1);
 }
 
 .breakdown-icon svg {
@@ -2738,7 +2773,7 @@ section:focus-visible {
 
 .breakdown-formula .formula-highlight {
   font-weight: 700;
-  color: var(--mint-1);
+  color: var(--emerald-1);
   font-family: "Sora", monospace;
 }
 
@@ -3176,10 +3211,10 @@ section:focus-visible {
   height: 52px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, rgba(49, 201, 157, 0.15), rgba(49, 201, 157, 0.05));
-  border: 1px solid rgba(49, 201, 157, 0.2);
+  background: linear-gradient(135deg, var(--amber-glow), rgba(245, 158, 11, 0.05));
+  border: 1px solid rgba(245, 158, 11, 0.2);
   border-radius: 12px;
-  color: var(--mint-1);
+  color: var(--amber-1);
   flex-shrink: 0;
   transition: all 300ms ease;
   position: relative;
@@ -3192,7 +3227,7 @@ section:focus-visible {
 }
 
 .download-card-enhanced:hover .download-card-icon {
-  background: var(--mint-1);
+  background: var(--amber-1);
   color: white;
   transform: scale(1.05);
 }
@@ -3232,12 +3267,12 @@ section:focus-visible {
 
 .download-card-badge {
   padding: 0.2rem 0.5rem;
-  background: rgba(49, 201, 157, 0.12);
-  border: 1px solid rgba(49, 201, 157, 0.2);
+  background: var(--amber-glow);
+  border: 1px solid rgba(245, 158, 11, 0.2);
   border-radius: 4px;
   font-size: 0.7rem;
   font-weight: 700;
-  color: var(--mint-1);
+  color: var(--amber-1);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -3253,9 +3288,9 @@ section:focus-visible {
   height: 40px;
   display: grid;
   place-items: center;
-  background: rgba(49, 201, 157, 0.08);
+  background: var(--amber-glow);
   border-radius: 10px;
-  color: var(--mint-1);
+  color: var(--amber-1);
   transition: all 300ms ease;
   flex-shrink: 0;
   position: relative;
@@ -3542,6 +3577,164 @@ section:focus-visible {
   .breakdown-metrics {
     grid-template-columns: 1fr;
   }
+}
+
+/* Section-Specific Color Themes */
+
+/* Hero Section - Indigo */
+.hero-section-indigo .hero-rank-badge {
+  background: radial-gradient(circle, var(--indigo-glow), transparent 70%);
+}
+
+.hero-section-indigo .hero-score-card {
+  background: radial-gradient(circle at 30% 50%, var(--indigo-glow), transparent 60%);
+  border-color: var(--indigo-1);
+}
+
+.hero-section-indigo .hero-score-card .score-value-hero {
+  color: var(--indigo-1);
+}
+
+/* Performance Section - Teal */
+.performance-section-teal .glass-ring-card {
+  background:
+    radial-gradient(circle at 50% 50%, var(--teal-glow), transparent 60%),
+    linear-gradient(150deg, var(--glass-surface-strong), var(--glass-surface));
+}
+
+.performance-section-teal .glass-ring-card:hover {
+  border-color: var(--teal-1);
+  box-shadow: 0 10px 30px var(--teal-glow);
+}
+
+/* Attack Section - Purple */
+.attack-section-purple .radar-wrapper {
+  background:
+    radial-gradient(circle at 30% 70%, var(--purple-glow), transparent 55%),
+    radial-gradient(circle at 70% 30%, rgba(124, 58, 237, 0.03), transparent 50%),
+    linear-gradient(155deg, var(--glass-surface-strong), var(--glass-surface));
+  border-color: rgba(124, 58, 237, 0.2);
+  box-shadow: var(--shadow-elegant-purple);
+}
+
+.attack-section-purple .radar-tooltip {
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+.attack-section-purple .radar-point:hover {
+  filter: drop-shadow(0 0 8px var(--purple-1));
+}
+
+/* Details Section - Sand */
+.details-section-sand .spec-card {
+  background:
+    radial-gradient(circle at 50% 30%, var(--amber-glow), transparent 60%),
+    linear-gradient(150deg, var(--glass-surface-strong), var(--glass-surface));
+}
+
+.details-section-sand .spec-card:hover {
+  border-color: var(--amber-1);
+  box-shadow: var(--shadow-elegant-amber);
+}
+
+/* Score Info Section - Emerald */
+.score-info-emerald .score-formula-card {
+  background:
+    radial-gradient(circle at 50% 30%, var(--emerald-glow), transparent 60%),
+    radial-gradient(circle at 80% 80%, var(--teal-glow), transparent 50%),
+    linear-gradient(155deg, var(--glass-surface-strong), var(--glass-surface));
+  box-shadow: var(--shadow-elegant);
+}
+
+.score-info-emerald .formula-header {
+  background: var(--emerald-glow);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: var(--emerald-1);
+}
+
+.score-info-emerald .formula-component.robustness {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--emerald-1);
+}
+
+.score-info-emerald .breakdown-icon.robustness-icon {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--emerald-1);
+}
+
+.score-info-emerald .learn-more-card {
+  background:
+    linear-gradient(90deg, var(--emerald-glow), transparent 30%),
+    radial-gradient(circle at 90% 50%, var(--emerald-glow), transparent 50%),
+    linear-gradient(155deg, var(--glass-surface-strong), var(--glass-surface));
+}
+
+.score-info-emerald .learn-more-card::before {
+  background: linear-gradient(135deg, var(--emerald-1), transparent 50%, var(--teal-1));
+}
+
+.score-info-emerald .learn-more-card:hover::before {
+  opacity: 1;
+}
+
+.score-info-emerald .learn-more-icon {
+  background: var(--emerald-glow);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: var(--emerald-1);
+}
+
+.score-info-emerald .learn-more-card:hover .learn-more-icon {
+  background: var(--emerald-1);
+  color: white;
+}
+
+/* Downloads Section - Amber */
+.downloads-section-amber .download-card-enhanced {
+  background:
+    radial-gradient(circle at 20% 50%, var(--amber-glow), transparent 50%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.7), transparent 50%),
+    linear-gradient(155deg, var(--glass-surface-strong), var(--glass-surface));
+}
+
+.downloads-section-amber .download-card-enhanced::before {
+  background: linear-gradient(135deg, transparent 30%, var(--amber-1), transparent 70%);
+}
+
+.downloads-section-amber .download-card-enhanced:hover {
+  box-shadow: 0 20px 50px var(--amber-glow);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.downloads-section-amber .download-card-icon {
+  background: var(--amber-glow);
+  border-color: rgba(245, 158, 11, 0.2);
+  color: var(--amber-1);
+}
+
+.downloads-section-amber .download-card-enhanced:hover .download-card-icon {
+  background: var(--amber-1);
+  color: white;
+}
+
+.downloads-section-amber .download-card-badge {
+  background: var(--amber-glow);
+  border-color: rgba(245, 158, 11, 0.2);
+  color: var(--amber-1);
+}
+
+.downloads-section-amber .download-card-arrow {
+  background: var(--amber-glow);
+  color: var(--amber-1);
+}
+
+.downloads-section-amber .download-card-enhanced:hover .download-card-arrow {
+  background: var(--amber-1);
+  color: white;
+}
+
+.downloads-section-amber .download-card-enhanced:hover .download-card-arrow {
+  animation: arrowBounce 600ms ease infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
