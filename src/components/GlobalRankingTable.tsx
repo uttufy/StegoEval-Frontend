@@ -10,6 +10,7 @@ import {
   formatRuntime,
   formatSsim
 } from "@/lib/leaderboard";
+import Link from "next/link";
 import type { LeaderboardEntry } from "@/types/leaderboard";
 import { useState } from "react";
 import { AttackScoresDetailRow } from "@/components/AttackScoresDetailRow";
@@ -107,7 +108,9 @@ export function GlobalRankingTable({ entries, rankById, trendById }: GlobalRanki
                     <div className="model-cell">
                       <span className="provider-chip">{profileInitials(entry.datasetProfile)}</span>
                       <div>
-                        <strong>{entry.algorithmName}</strong>
+                        <Link href={`/technique/${encodeURIComponent(entry.algorithmName)}`} className="algorithm-link">
+                          <strong>{entry.algorithmName}</strong>
+                        </Link>
                         <small>
                           {entry.datasetProfile} · Last eval {formatLastEvaluated(entry.lastEvaluatedIso)}
                         </small>

@@ -1,6 +1,7 @@
 "use client";
 
 import { formatBer, formatPayload, formatPsnr, formatRecoveryRate, formatRuntime, formatSsim, formatAttackScore } from "@/lib/leaderboard";
+import Link from "next/link";
 import type { LeaderboardEntry } from "@/types/leaderboard";
 import { useState } from "react";
 
@@ -59,7 +60,9 @@ export function LeaderboardCardsMobile({ entries, rankById, trendById }: Leaderb
               <div className="model-cell-head">
                 <span className="provider-chip">{profileInitials(entry.datasetProfile)}</span>
                 <div>
-                  <h4>{entry.algorithmName}</h4>
+                  <Link href={`/technique/${encodeURIComponent(entry.algorithmName)}`} className="algorithm-link-mobile">
+                    <h4>{entry.algorithmName}</h4>
+                  </Link>
                   <small>{entry.datasetProfile}</small>
                 </div>
               </div>

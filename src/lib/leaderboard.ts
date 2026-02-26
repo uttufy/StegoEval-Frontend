@@ -211,3 +211,11 @@ export function formatAttackScore(value: number | undefined): string {
   if (value === undefined) return "-";
   return value.toFixed(1);
 }
+
+export function getAlgorithmByName(name: string): LeaderboardEntry | undefined {
+  const entries = getLeaderboardEntriesSync();
+  return entries.find(
+    (entry) =>
+      entry.algorithmName.toLowerCase() === decodeURIComponent(name).toLowerCase()
+  );
+}
