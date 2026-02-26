@@ -78,6 +78,15 @@ export function TechniqueDetailClient({ entry, rank }: TechniqueDetailClientProp
         </div>
       </header>
 
+      {entry.description && (
+        <section className="info-section">
+          <h2 className="section-title">About This Algorithm</h2>
+          <div className="info-card">
+            <p className="info-description">{entry.description}</p>
+          </div>
+        </section>
+      )}
+
       <section className="metrics-section">
         <h2 className="section-title">Performance Metrics</h2>
         <PerformanceMetrics entry={entry} />

@@ -1286,6 +1286,35 @@ section:focus-visible {
 
 /* Technique Detail Page Styles */
 
+.info-section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.info-card {
+  background:
+    radial-gradient(circle at 10% -35%, var(--glass-tint), transparent 52%),
+    linear-gradient(155deg, var(--glass-surface-strong), var(--glass-surface));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+  padding: var(--space-4) 20px;
+}
+
+.info-description {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-description strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .technique-detail-page {
   width: min(1200px, 96vw);
   margin: 0 auto;

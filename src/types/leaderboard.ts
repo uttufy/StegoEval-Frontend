@@ -21,6 +21,7 @@ export interface LeaderboardEntry {
   runtimeMs: number;
   lastEvaluatedIso: string;
   algorithmFamily?: string;
+  description?: string;            // Detailed description of the algorithm
 
   // NEW FIELDS
   ssim: number;                    // Structural Similarity Index (0-1)

@@ -28,6 +28,7 @@ function normalizeEntry(entry: Partial<LeaderboardEntry>, index: number): Leader
     runtimeMs: toNumber(entry.runtimeMs),
     lastEvaluatedIso: toIso(entry.lastEvaluatedIso),
     algorithmFamily: entry.algorithmFamily ? String(entry.algorithmFamily) : undefined,
+    description: entry.description ? String(entry.description) : undefined,
     // NEW FIELDS
     ssim: toNumber(entry.ssim, 1),
     recoveryRate: toNumber(entry.recoveryRate, 0),
