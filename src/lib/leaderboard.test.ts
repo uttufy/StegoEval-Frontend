@@ -2,9 +2,10 @@ import {
   baseRankComparator,
   buildRankMap,
   filterEntries,
-  formatContextWindow,
-  formatCost,
-  formatLatency,
+  formatBer,
+  formatPayload,
+  formatPsnr,
+  formatRuntime,
   paginateEntries,
   sortEntries
 } from "@/lib/leaderboard";
@@ -13,44 +14,50 @@ import type { LeaderboardEntry } from "@/types/leaderboard";
 const entries: LeaderboardEntry[] = [
   {
     id: "a",
-    modelName: "Model A",
-    provider: "OpenAI",
+    algorithmName: "HUGO",
+    datasetProfile: "BOSSBase-256",
+    algorithmFamily: "Spatial",
     compositeScore: 95,
-    qualityScore: 96,
-    costPer1MInput: 2,
-    costPer1MOutput: 8,
-    latencyMs: 700,
-    contextWindow: 128000,
-    lastEvaluatedIso: "2026-02-24T10:00:00.000Z"
+    psnrDb: 43.1,
+    ber: 0.010,
+    payloadBpp: 0.40,
+    runtimeMs: 130,
+    lastEvaluatedIso: "2026-02-24T10:00:00.000Z",
+    ssim: 0.98,
+    recoveryRate: 95.0
   },
   {
     id: "b",
-    modelName: "Model B",
-    provider: "Anthropic",
+    algorithmName: "S-UNIWARD",
+    datasetProfile: "BOSSBase-512",
+    algorithmFamily: "Spatial",
     compositeScore: 95,
-    qualityScore: 96,
-    costPer1MInput: 1,
-    costPer1MOutput: 4,
-    latencyMs: 600,
-    contextWindow: 200000,
-    lastEvaluatedIso: "2026-02-24T11:00:00.000Z"
+    psnrDb: 43.1,
+    ber: 0.009,
+    payloadBpp: 0.38,
+    runtimeMs: 120,
+    lastEvaluatedIso: "2026-02-24T11:00:00.000Z",
+    ssim: 0.98,
+    recoveryRate: 95.5
   },
   {
     id: "c",
-    modelName: "Model C",
-    provider: "Google",
+    algorithmName: "SteganoGAN",
+    datasetProfile: "DIV2K-Color",
+    algorithmFamily: "GAN",
     compositeScore: 90,
-    qualityScore: 93,
-    costPer1MInput: 0.5,
-    costPer1MOutput: 2,
-    latencyMs: 400,
-    contextWindow: 1000000,
-    lastEvaluatedIso: "2026-02-20T10:00:00.000Z"
+    psnrDb: 41.0,
+    ber: 0.015,
+    payloadBpp: 0.72,
+    runtimeMs: 240,
+    lastEvaluatedIso: "2026-02-20T10:00:00.000Z",
+    ssim: 0.96,
+    recoveryRate: 88.0
   }
 ];
 
 describe("baseRankComparator", () => {
-  it("applies composite tie-breakers deterministically", () => {
+  it("applies steganography tie-breakers deterministically", () => {
     const sorted = [...entries].sort(baseRankComparator);
     expect(sorted.map((entry) => entry.id)).toEqual(["b", "a", "c"]);
   });
@@ -61,14 +68,14 @@ describe("sortEntries", () => {
     expect(sortEntries(entries, "compositeScore", "desc")[0]?.id).toBe("b");
     expect(sortEntries(entries, "compositeScore", "asc")[0]?.id).toBe("c");
 
-    expect(sortEntries(entries, "qualityScore", "desc")[0]?.id).toBe("b");
-    expect(sortEntries(entries, "qualityScore", "asc")[0]?.id).toBe("c");
+    expect(sortEntries(entries, "psnrDb", "desc")[0]?.id).toBe("b");
+    expect(sortEntries(entries, "psnrDb", "asc")[0]?.id).toBe("c");
 
-    expect(sortEntries(entries, "costPer1MInput", "asc")[0]?.id).toBe("c");
-    expect(sortEntries(entries, "costPer1MInput", "desc")[0]?.id).toBe("a");
+    expect(sortEntries(entries, "ber", "asc")[0]?.id).toBe("b");
+    expect(sortEntries(entries, "ber", "desc")[0]?.id).toBe("c");
 
-    expect(sortEntries(entries, "latencyMs", "asc")[0]?.id).toBe("c");
-    expect(sortEntries(entries, "latencyMs", "desc")[0]?.id).toBe("a");
+    expect(sortEntries(entries, "payloadBpp", "desc")[0]?.id).toBe("c");
+    expect(sortEntries(entries, "payloadBpp", "asc")[0]?.id).toBe("b");
 
     expect(sortEntries(entries, "lastEvaluated", "desc")[0]?.id).toBe("b");
     expect(sortEntries(entries, "lastEvaluated", "asc")[0]?.id).toBe("c");
@@ -79,9 +86,10 @@ describe("sortEntries", () => {
 });
 
 describe("filterEntries", () => {
-  it("matches model name and provider case-insensitively", () => {
-    expect(filterEntries(entries, "model a").map((entry) => entry.id)).toEqual(["a"]);
-    expect(filterEntries(entries, "ANTHROPIC").map((entry) => entry.id)).toEqual(["b"]);
+  it("matches algorithm name and dataset profile case-insensitively", () => {
+    expect(filterEntries(entries, "hugo").map((entry) => entry.id)).toEqual(["a"]);
+    expect(filterEntries(entries, "bossbase").map((entry) => entry.id)).toEqual(["a", "b"]);
+    expect(filterEntries(entries, "gan").map((entry) => entry.id)).toEqual(["c"]);
     expect(filterEntries(entries, "")).toHaveLength(3);
   });
 });
@@ -108,9 +116,10 @@ describe("buildRankMap", () => {
 });
 
 describe("format helpers", () => {
-  it("formats cost, latency, and context", () => {
-    expect(formatCost(1.25)).toBe("$1.25/1M");
-    expect(formatLatency(534.7)).toBe("535 ms");
-    expect(formatContextWindow(128000)).toBe("128k");
+  it("formats psnr, ber, payload, and runtime", () => {
+    expect(formatPsnr(43.14)).toBe("43.1 dB");
+    expect(formatBer(0.0124)).toBe("0.012");
+    expect(formatPayload(0.418)).toBe("0.42 bpp");
+    expect(formatRuntime(534.7)).toBe("535 ms");
   });
 });

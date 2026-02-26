@@ -1,9 +1,18 @@
+"use client";
+
+import React from "react";
 import {
-  formatCost,
+  formatBer,
   formatLastEvaluated,
-  formatLatency
+  formatPayload,
+  formatPsnr,
+  formatRecoveryRate,
+  formatRuntime,
+  formatSsim
 } from "@/lib/leaderboard";
 import type { LeaderboardEntry } from "@/types/leaderboard";
+import { useState } from "react";
+import { AttackScoresDetailRow } from "@/components/AttackScoresDetailRow";
 
 export type RankTrend = "up" | "down" | "flat";
 
@@ -13,10 +22,10 @@ interface GlobalRankingTableProps {
   trendById: Map<string, RankTrend>;
 }
 
-function providerInitials(provider: string): string {
-  const words = provider.trim().split(/\s+/).filter(Boolean);
+function profileInitials(profile: string): string {
+  const words = profile.trim().split(/[\s-]+/).filter(Boolean);
   if (!words.length) {
-    return "AI";
+    return "SP";
   }
 
   return words
@@ -38,53 +47,101 @@ function trendGlyph(trend: RankTrend): string {
 }
 
 export function GlobalRankingTable({ entries, rankById, trendById }: GlobalRankingTableProps) {
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+
+  const toggleRow = (id: string) => {
+    setExpandedRowId(expandedRowId === id ? null : id);
+  };
+
+  const hasAttackScores = entries.some(entry =>
+    entry.compressionScore !== undefined ||
+    entry.blurScore !== undefined ||
+    entry.noiseScore !== undefined ||
+    entry.geometricScore !== undefined ||
+    entry.capacityScore !== undefined
+  );
+
   return (
     <section className="ranking-table-wrap" aria-label="Global ranking table">
       <table>
-        <caption className="sr-only">Global ranking table for LLM models</caption>
+        <caption className="sr-only">Global ranking table for steganography algorithms</caption>
         <thead>
           <tr>
             <th scope="col">Rank</th>
-            <th scope="col">Model</th>
-            <th scope="col">Quality</th>
-            <th scope="col">Latency</th>
-            <th scope="col">Input Cost</th>
-            <th scope="col">Output Cost</th>
+            <th scope="col">Algorithm</th>
+            <th scope="col">PSNR (dB)</th>
+            <th scope="col">SSIM</th>
+            <th scope="col">Payload (bpp)</th>
+            <th scope="col">BER</th>
+            <th scope="col">Recovery Rate</th>
+            <th scope="col">Runtime</th>
             <th scope="col">Composite</th>
+            {hasAttackScores && <th scope="col" className="toggle-col"></th>}
           </tr>
         </thead>
         <tbody>
           {entries.map((entry) => {
             const rank = rankById.get(entry.id) ?? 0;
             const trend = trendById.get(entry.id) ?? "flat";
+            const isExpanded = expandedRowId === entry.id;
+
+            const entryHasAttackScores =
+              entry.compressionScore !== undefined ||
+              entry.blurScore !== undefined ||
+              entry.noiseScore !== undefined ||
+              entry.geometricScore !== undefined ||
+              entry.capacityScore !== undefined;
 
             return (
-              <tr key={entry.id} className={rank === 1 ? "is-top" : ""}>
-                <td>
-                  <div className="rank-cell">
-                    <span className={`trend trend-${trend}`} aria-label={`Trend ${trend}`}>
-                      {trendGlyph(trend)}
-                    </span>
-                    <span>{rank}</span>
-                  </div>
-                </td>
-                <td>
-                  <div className="model-cell">
-                    <span className="provider-chip">{providerInitials(entry.provider)}</span>
-                    <div>
-                      <strong>{entry.modelName}</strong>
-                      <small>
-                        {entry.provider} · Last eval {formatLastEvaluated(entry.lastEvaluatedIso)}
-                      </small>
+              <React.Fragment key={entry.id}>
+                <tr className={rank === 1 ? "is-top" : ""}>
+                  <td>
+                    <div className="rank-cell">
+                      <span className={`trend trend-${trend}`} aria-label={`Trend ${trend}`}>
+                        {trendGlyph(trend)}
+                      </span>
+                      <span>{rank}</span>
                     </div>
-                  </div>
-                </td>
-                <td>{entry.qualityScore.toFixed(1)}</td>
-                <td>{formatLatency(entry.latencyMs)}</td>
-                <td>{formatCost(entry.costPer1MInput)}</td>
-                <td>{formatCost(entry.costPer1MOutput)}</td>
-                <td className="emphasis">{entry.compositeScore.toFixed(1)}</td>
-              </tr>
+                  </td>
+                  <td>
+                    <div className="model-cell">
+                      <span className="provider-chip">{profileInitials(entry.datasetProfile)}</span>
+                      <div>
+                        <strong>{entry.algorithmName}</strong>
+                        <small>
+                          {entry.datasetProfile} · Last eval {formatLastEvaluated(entry.lastEvaluatedIso)}
+                        </small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{formatPsnr(entry.psnrDb)}</td>
+                  <td>{formatSsim(entry.ssim)}</td>
+                  <td>{formatPayload(entry.payloadBpp)}</td>
+                  <td>{formatBer(entry.ber)}</td>
+                  <td>{formatRecoveryRate(entry.recoveryRate)}</td>
+                  <td>{formatRuntime(entry.runtimeMs)}</td>
+                  <td className="emphasis">{entry.compositeScore.toFixed(1)}</td>
+                  {hasAttackScores && (
+                    <td className="toggle-col">
+                      {entryHasAttackScores && (
+                        <button
+                          type="button"
+                          className="toggle-details-btn"
+                          onClick={() => toggleRow(entry.id)}
+                          aria-label={isExpanded ? "Hide attack scores" : "Show attack scores"}
+                        >
+                          {isExpanded ? "▼" : "▶"}
+                        </button>
+                      )}
+                    </td>
+                  )}
+                </tr>
+                <AttackScoresDetailRow
+                  entry={entry}
+                  isExpanded={isExpanded}
+                  colSpan={hasAttackScores ? 10 : 9}
+                />
+              </React.Fragment>
             );
           })}
         </tbody>

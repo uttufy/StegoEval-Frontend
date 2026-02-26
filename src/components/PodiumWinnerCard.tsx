@@ -1,4 +1,4 @@
-import { formatCost } from "@/lib/leaderboard";
+import { formatBer, formatPayload } from "@/lib/leaderboard";
 import type { LeaderboardEntry } from "@/types/leaderboard";
 
 interface PodiumWinnerCardProps {
@@ -30,10 +30,11 @@ export function PodiumWinnerCard({ entries, rankById }: PodiumWinnerCardProps) {
               <div className="provider-badge" aria-hidden>
                 {trophyByRank[rank] ?? "🏆"}
               </div>
-              <p className="podium-name">{entry.modelName}</p>
+              <p className="podium-name">{entry.algorithmName}</p>
               <p className="podium-rank">{rank === 1 ? "1st" : rank === 2 ? "2nd" : "3rd"}</p>
               <p className="podium-chip">
-                {entry.compositeScore.toFixed(1)} PTS · {formatCost(entry.costPer1MInput)}
+                {entry.compositeScore.toFixed(1)} PTS · BER {formatBer(entry.ber)} ·{" "}
+                {formatPayload(entry.payloadBpp)}
               </p>
             </article>
           );
@@ -41,7 +42,7 @@ export function PodiumWinnerCard({ entries, rankById }: PodiumWinnerCardProps) {
       </div>
       {winner && (
         <p className="podium-summary">
-          <strong>{winner.modelName}</strong> wins the top spot with elite quality-to-cost balance.
+          <strong>{winner.algorithmName}</strong> wins the top spot for steganography performance.
         </p>
       )}
     </section>
